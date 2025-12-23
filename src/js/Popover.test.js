@@ -1,37 +1,46 @@
 /**
  * @jest-environment jsdom
  */
-import Popover from '../Popover';
 
-test('Popover should render', () => {
+import Popover from '../js/Popover';
 
-  document.body.innerHTML = `
-    <button class="btn" title="Test Title" data-content="Test Content">Button</button>
-  `;
+test('Popover should render correct HTML structure', () => {
+
+  document.body.innerHTML = '<button class="btn">Click me</button>';
   const btn = document.querySelector('.btn');
   const factory = new Popover();
 
 
-  factory.showPopover('Test Content', 'Test Title', btn);
+  factory.showPopover('Content text', 'Title text', btn);
 
 
-  const popover = document.querySelector('.popover');
+  const popoverElement = document.querySelector('.popover');
   
-  expect(popover).toBeTruthy(); 
-  expect(popover.querySelector('.popover-header').textContent).toBe('Test Title');
-  expect(popover.querySelector('.popover-body').textContent).toBe('Test Content');
+
+  expect(popoverElement).toBeTruthy();
+  
+
+  const title = popoverElement.querySelector('.popover-header');
+  expect(title.textContent).toBe('Title text');
+  
+
+  const body = popoverElement.querySelector('.popover-body');
+  expect(body.textContent).toBe('Content text');
 });
 
-test('Popover should be removed', () => {
-   document.body.innerHTML = '<button class="btn">Button</button>';
-   const btn = document.querySelector('.btn');
-   const factory = new Popover();
+test('Popover should allow removal', () => {
+  document.body.innerHTML = '<button class="btn">Click me</button>';
+  const btn = document.querySelector('.btn');
+  const factory = new Popover();
 
-   const id = factory.showPopover('Msg', 'Title', btn);
-   
+  const id = factory.showPopover('Content', 'Title', btn);
+  
 
-   factory.removePopover(id);
-   const popover = document.querySelector('.popover');
-   
-   expect(popover).toBeNull(); 
+  expect(document.querySelector('.popover')).not.toBeNull();
+
+
+  factory.removePopover(id);
+
+
+  expect(document.querySelector('.popover')).toBeNull();
 });
