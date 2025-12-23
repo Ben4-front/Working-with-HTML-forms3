@@ -1,22 +1,24 @@
 import Popover from './Popover';
 
-const popoverFactory = new Popover();
-const btn = document.querySelector('.btn');
 
+if (typeof document !== 'undefined') {
+  const popoverFactory = new Popover();
+  const btn = document.querySelector('.btn');
 
-let activePopoverId = null;
+  if (btn) { 
+    let activePopoverId = null;
 
-btn.addEventListener('click', (e) => {
-  e.preventDefault();
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
 
-  if (activePopoverId) {
-    popoverFactory.removePopover(activePopoverId);
-    activePopoverId = null;
-  } else {
-
-    const title = btn.getAttribute('title');
-    const content = btn.dataset.content;
-    
-    activePopoverId = popoverFactory.showPopover(content, title, btn);
+      if (activePopoverId) {
+        popoverFactory.removePopover(activePopoverId);
+        activePopoverId = null;
+      } else {
+        const title = btn.getAttribute('title');
+        const content = btn.dataset.content;
+        activePopoverId = popoverFactory.showPopover(content, title, btn);
+      }
+    });
   }
-});
+}
