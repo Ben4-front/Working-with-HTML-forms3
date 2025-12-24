@@ -1,23 +1,19 @@
-import Popover from "./Popover";
+import Popover from './Popover';
 
-if (typeof document !== "undefined") {
-  const popoverFactory = new Popover();
-  const btn = document.querySelector(".btn");
+const factory = new Popover();
+const btn = document.querySelector('.btn');
 
-  if (btn) {
-    let activePopoverId = null;
 
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+let actualPopoverId = null;
 
-      if (activePopoverId) {
-        popoverFactory.removePopover(activePopoverId);
-        activePopoverId = null;
-      } else {
-        const title = btn.getAttribute("title");
-        const content = btn.dataset.content;
-        activePopoverId = popoverFactory.showPopover(content, title, btn);
-      }
-    });
+btn.addEventListener('click', (e) => {
+  e.preventDefault(); 
+  if (actualPopoverId === null) {
+
+    actualPopoverId = factory.show(btn); 
+  } else {
+
+    factory.remove(actualPopoverId);
+    actualPopoverId = null;
   }
-}
+});
